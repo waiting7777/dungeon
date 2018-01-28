@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Dungeon</title>
+    <style>
+    
+        body {
+            background-color: #000000;
+            padding: 0px;
+            margin: 0px;
+        }
+
+        @font-face {
+            font-family: 'Prstart';
+            src: url('assets/fonts/prstart.ttf');
+        }
+
+        .fontPreload {
+            font-family: Prstart;
+            position: absolute;
+            left: -100px;
+        }
+    
+    </style>
+</head>
+<body>
+    <div class="fontPreload">.</div>
+    <script src="js/phaser.min.js"></script>
+    <script src="js/states/Boot.js"></script>
+    <script src="js/states/Preload.js"></script>
+    <script src="js/states/Game.js"></script>
+    <script src="js/prefabs/Board.js"></script>
+    <script src="js/prefabs/Item.js"></script>
+    <script src="js/prefabs/Enemy.js"></script>
+    <script src="js/main.js"></script>
+</body>
+</html>
