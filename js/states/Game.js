@@ -19,14 +19,33 @@ DunCrawl.GameState = {
         }
     },
     create: function() {
-
+        //tiles groups
         this.backgroundTiles = this.add.group()
 
+        //map elements
+        this.mapElements = this.add.group()
+
+        //board
         this.board = new DunCrawl.Board(this, {
             rows: this.ROWS,
             cols: this.COLS,
             tileSize: this.TILE_SIZE
         })
+
+        //item
+
+        this.item = new DunCrawl.Item(this, {
+            row: 3,
+            col: 2,
+            asset: 'sword',
+            type: 'consumable',
+            health: 10,
+            attack: 0,
+            defense: 1,
+            gold: 100
+        })
+
+        this.mapElements.add(this.item)
 
     },
     gameOver: function() {
