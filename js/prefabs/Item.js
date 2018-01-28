@@ -29,5 +29,11 @@ DunCrawl.Item.prototype.collect = function() {
         this.state.playerStats.attack += this.data.attack
         this.state.playerStats.defense += this.data.defense
         this.state.playerStats.gold += this.data.gold
+
+        //refresh stats
+        this.state.refreshStats()
+
+        //items is consumed
+        this.kill()
     }
 }
