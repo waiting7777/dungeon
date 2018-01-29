@@ -8,6 +8,7 @@ DunCrawl.Board = function(state, data) {
     this.cols = data.cols
     this.numCells = this.rows * this.cols
     this.tileSize = data.tileSize
+    this.mapElements = state.mapElements
 
     var i, j, tile
     for(i = 0; i < this.rows; i++) {
@@ -57,4 +58,43 @@ DunCrawl.Board.prototype.getXYFromRowCol = function(cell) {
         x: cell.col * this.tileSize + this.tileSize/2,
         y: cell.row * this.tileSize + this.tileSize/2
     }
+}
+
+DunCrawl.Board.prototype.getFreeCell = function() {
+    var freeCell, foundCell
+    var row, col
+    var len = this.mapElements.length
+
+    while(!freeCell) {
+        foundCell = false
+
+        // try a random position
+        row = this.randomBetween(0, this.rows, true)
+        col = this.randomBetween(0, this.cols, true)
+
+        //find a match for the random cell
+        for(i = 0; i < len; i++)    {
+            if(this.mapElements.children[i].alive && this.mapElements.children[i].row == row && this.mapElements.children[i].col == col) {
+                foundCell = true
+                break;
+            }
+        }
+
+        //if there were no match, it means that the cell is free
+        if(!foundCell) {
+            freeCell = {row: row, col: col}
+        }
+    }
+
+    return freeCell
+}
+
+DunCrawl.Board.prototype.randomBetween = function(a, b, isInteger) {
+    var numBetween = a + Math.random() * (b - a)
+
+    if(isInteger) {
+        numBetween = Math.floor(numBetween)
+    }
+
+    return numBetween
 }
