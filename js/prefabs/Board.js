@@ -9,6 +9,8 @@ DunCrawl.Board = function(state, data) {
     this.numCells = this.rows * this.cols
     this.tileSize = data.tileSize
     this.mapElements = state.mapElements
+    this.levelData = data.levelData
+    this.coefs = this.levelData.coefs
 
     var i, j, tile
     for(i = 0; i < this.rows; i++) {
@@ -97,4 +99,48 @@ DunCrawl.Board.prototype.randomBetween = function(a, b, isInteger) {
     }
 
     return numBetween
+}
+
+DunCrawl.Board.prototype.initLevel = function() {
+    //init items
+    this.initItems()
+
+    //init enemies
+
+    //init start, exit, key
+}
+
+DunCrawl.Board.prototype.initItems = function() {
+    //number of items
+    var numItems = Math.round(this.numCells * this.coefs.itemOccupation * this.randomBetween(1 - this.coefs.itemVariation, 1 + this.coefs.itemVariation))
+    
+    var i = 0
+    var type
+    var itemData, newItem, cell
+
+    while(i < numItems) {
+
+        //random item type
+        type = this.randomBetween(0, this.levelData.itemTypes.length, true)
+
+        //grab item data
+        itemData = Object.create(this.levelData.itemTypes[type])
+        itemData.board = this
+
+        itemData.health = itemData.health || 0
+        itemData.attack = itemData.attack || 0
+        itemData.defense = itemData.defense || 0
+        itemData.gold = itemData.gold || 0
+
+        //get a free cell to place the new item
+        cell = this.getFreeCell()
+        itemData.row = cell.row
+        itemData.col = cell.col
+
+        //create the item and add it to the map
+        newItem = new DunCrawl.Item(this.state, itemData)
+        this.mapElements.add(newItem)
+
+        i++
+    }
 }
