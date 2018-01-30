@@ -11,6 +11,7 @@ DunCrawl.Board = function(state, data) {
     this.mapElements = state.mapElements
     this.levelData = data.levelData
     this.coefs = this.levelData.coefs
+    this.darkTiles = state.darkTiles
 
     var i, j, tile
     for(i = 0; i < this.rows; i++) {
@@ -96,6 +97,10 @@ DunCrawl.Board.prototype.randomBetween = function(a, b, isInteger) {
 }
 
 DunCrawl.Board.prototype.initLevel = function() {
+
+    //init darkness or fog of war
+    this.initDarkness()
+
     //init items
     this.initItems()
 
@@ -208,4 +213,25 @@ DunCrawl.Board.prototype.initExit = function() {
         type: 'key'
     })
     this.mapElements.add(key)
+}
+
+DunCrawl.Board.prototype.initDarkness = function() {
+    var i, j, tile
+    for(i = 0; i < this.rows; i++) {
+        for(j = 0; j < this.cols; j++) {
+            //add background
+            tile = new Phaser.Sprite(this.game, j * this.tileSize, i * this.tileSize, 'darkTile')
+            tile.row = i
+            tile.col = j
+            this.darkTiles.add(tile)
+
+            tile.inputEnabled = true
+            tile.events.onInputDown.add(function(tile){
+
+            }, this)
+        }
+    }
+
+    //alpha for all dark tiles
+    this.darkTiles.setAll('alpha', 0.7)
 }
