@@ -20,12 +20,6 @@ DunCrawl.Board = function(state, data) {
             tile.col = j
             this.state.backgroundTiles.add(tile)
 
-            tile.inputEnabled = true
-            tile.events.onInputDown.add(function(tile) {
-                tile.alpha = 0.5
-                console.log('row: ' + tile.row + ' col:' + tile.col)
-                console.log(this.getSurrounding(tile))
-            }, this)
         }
     }
 }

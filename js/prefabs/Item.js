@@ -36,4 +36,27 @@ DunCrawl.Item.prototype.collect = function() {
         //items is consumed
         this.kill()
     }
+
+    //key collection
+    else if(this.data.type == 'key') {
+        this.state.playerStats.hasKey = true
+
+        //refresh stats
+        this.state.refreshStats()
+
+        //items is consumed
+        this.kill()
+    }
+
+    //exit door
+    else if(this.data.type == 'exit') {
+
+        //open if you have the key
+        if(this.state.playerStats.hasKey) {
+            this.state.playerStats.hasKey = false
+            this.state.nextLevel()
+            return
+        }
+
+    }
 }
