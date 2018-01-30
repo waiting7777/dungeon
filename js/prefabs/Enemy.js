@@ -2,10 +2,7 @@ var DunCrawl = DunCrawl || {}
 
 DunCrawl.Enemy = function(state, data) {
 
-    var position = {
-        x: 10,
-        y: 10
-    }
+    var position = state.board.getXYFromRowCol(data)
 
     Phaser.Sprite.call(this, state.game, position.x, position.y, data.asset)
 
@@ -15,6 +12,7 @@ DunCrawl.Enemy = function(state, data) {
     this.row = data.row
     this.col = data.col
     this.data = data
+    this.data.type = 'enemy'
 
     this.anchor.setTo(0.5)
 
