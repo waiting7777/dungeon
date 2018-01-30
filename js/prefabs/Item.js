@@ -36,6 +36,9 @@ DunCrawl.Item.prototype.collect = function() {
         //refresh stats
         this.state.refreshStats()
 
+        //show map
+        this.state.board.clearDarknessTile(this, true)
+
         //items is consumed
         this.kill()
     }
@@ -47,12 +50,18 @@ DunCrawl.Item.prototype.collect = function() {
         //refresh stats
         this.state.refreshStats()
 
+        //show map
+        this.state.board.clearDarknessTile(this, true)
+
         //items is consumed
         this.kill()
     }
 
     //exit door
     else if(this.data.type == 'exit') {
+
+        //show map
+        this.state.board.clearDarknessTile(this, true)
 
         //open if you have the key
         if(this.state.playerStats.hasKey) {

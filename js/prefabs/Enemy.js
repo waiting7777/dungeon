@@ -99,7 +99,11 @@ DunCrawl.Enemy.prototype.attack = function() {
 
         if(attacked.health <= 0){
             this.state.playerStats.gold += this.data.gold
+
             this.kill()
+
+            //show map
+            this.state.board.clearDarknessTile(this, true)
         }
 
         if(attacker.health <= 0){

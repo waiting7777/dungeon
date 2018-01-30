@@ -253,6 +253,29 @@ DunCrawl.Board.prototype.clearDarknessTile = function(tile, considerEnemies) {
     var len = this.darkTiles.length
     var lenMap = this.mapElements.length
 
+    if(considerEnemies) {
+        var hasMonster = false
+        var lenTiles = tiles.length
+        var enemy
+
+        for(i = 0; i < lenTiles; i++) {
+            //search for monster in the tile
+            for(j = 0; j < lenMap; j++) {
+                enemy = this.mapElements.children[j]
+
+                if(enemy.alive && enemy.data.type == 'enemy' && enemy.visible && enemy.row == tiles[i].row && enemy.col == tiles[i].col){
+                    hasMonster = true
+                    break
+                }
+            }
+
+            //if there was a monster, we can't reveal
+            if(hasMonster) {
+                return
+            }
+        }
+    }
+
     //find dark tiles to kill
     tiles.forEach(function(currTile){
         //get dark cell if any
