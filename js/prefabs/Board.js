@@ -20,6 +20,11 @@ DunCrawl.Board = function(state, data) {
             tile.row = i
             tile.col = j
             this.state.backgroundTiles.add(tile)
+            
+            tile.inputEnabled = true
+            tile.events.onInputDown.add(function(tile){
+                this.clearDarknessTile(tile, true)
+            }, this)
 
         }
     }
@@ -213,6 +218,8 @@ DunCrawl.Board.prototype.initExit = function() {
         type: 'key'
     })
     this.mapElements.add(key)
+
+    this.clearDarknessTile(start, true)
 }
 
 DunCrawl.Board.prototype.initDarkness = function() {
@@ -234,4 +241,39 @@ DunCrawl.Board.prototype.initDarkness = function() {
 
     //alpha for all dark tiles
     this.darkTiles.setAll('alpha', 0.7)
+}
+
+DunCrawl.Board.prototype.clearDarknessTile = function(tile, considerEnemies) {
+    //cells that will be discoverd or revealed
+    var tiles = this.getSurrounding(tile)
+    tiles.push(tile)
+    
+    //consider enemies
+    var darkTile, i, j
+    var len = this.darkTiles.length
+    var lenMap = this.mapElements.length
+
+    //find dark tiles to kill
+    tiles.forEach(function(currTile){
+        //get dark cell if any
+        for(i = 0; i < len; i++){
+            darkTile = this.darkTiles.children[i]
+
+            //check if it matches
+            if(darkTile.alive && currTile.row === darkTile.row && currTile.col === darkTile.col) {
+
+                //search for map elements and show them - make them visible
+                for(j = 0; j < lenMap; j++) {
+                    if(this.mapElements.children[j].alive && this.mapElements.children[j].row == darkTile.row && this.mapElements.children[j].col == darkTile.col) {
+                        this.mapElements.children[j].visible = true
+                        break
+                    }
+                }
+
+                darkTile.kill()
+                break
+            }
+        }
+    }, this)
+    
 }
